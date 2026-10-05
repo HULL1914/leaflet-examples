@@ -24,19 +24,19 @@ const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 });
 
 const quick_eats = [
-    { name: "Qdoba Mexican Eats",  coords: [40.002265770114704, -83.00831544391653] },
-    { name: "Red Chili",           coords: [40.0020812252386, -83.00827194929629] },
-    { name: "Smashburger",         coords: [39.999824185055225, -83.007835944253] },
-    { name: "Dave's Hot Chicken",  coords: [39.99964518131456, -83.00783907331429] }
+    { name: "Qdoba Mexican Eats",  coords: [40.002265770114704, -83.00831544391653], note: "Tried once and it is good." },
+    { name: "Red Chili",           coords: [40.0020812252386, -83.00827194929629], note: "Spicy Sichuan food right on High St." },
+    { name: "Smashburger",         coords: [39.999824185055225, -83.007835944253], note: "Quick burger before class." },
+    { name: "Dave's Hot Chicken",  coords: [39.99964518131456, -83.00783907331429], note: "Hot chicken, the spice levels go way up." }
 ];
 
 const convenience_stores = [
-    { name: "Target",              coords: [40.00094825710499, -83.00802044889093] }
+    { name: "Target",              coords: [40.00094825710499, -83.00802044889093], note: "There is a Starbucks inside." }
 ];
 
 const landmarks = [
-    { name: "University Square",   coords: [40.00018911567196, -83.00766099251994] },
-    { name: "Union Garage North",  coords: [39.99895193757101, -83.00846543279417] }
+    { name: "University Square",   coords: [40.00018911567196, -83.00766099251994], note: "Shops and offices along High St." },
+    { name: "Union Garage North",  coords: [39.99895193757101, -83.00846543279417], note: "Parking garage near the Ohio Union." }
 ];
 
 function svgIcon(color) {
@@ -136,15 +136,18 @@ const north = [
 ];
 
 const qeatsLayer = L.layerGroup(
-    quick_eats.map(f => L.marker(f.coords, { icon: svgIcon(QEATS_COLOR) }))
+    quick_eats.map(f => L.marker(f.coords, { icon: svgIcon(QEATS_COLOR) })
+        .bindPopup(`<strong>${f.name}</strong><br/>${f.note}`))
 ).addTo(map);
 
 const storesLayer = L.layerGroup(
-    convenience_stores.map(f => L.marker(f.coords, { icon: svgIcon(STORE_COLOR) }))
+    convenience_stores.map(f => L.marker(f.coords, { icon: svgIcon(STORE_COLOR) })
+        .bindPopup(`<strong>${f.name}</strong><br/>${f.note}`))
 ).addTo(map);
 
 const landmarksLayer = L.layerGroup(
-    landmarks.map(f => L.marker(f.coords, { icon: svgIcon(LANDMARK_COLOR) }))
+    landmarks.map(f => L.marker(f.coords, { icon: svgIcon(LANDMARK_COLOR) })
+        .bindPopup(`<strong>${f.name}</strong><br/>${f.note}`))
 ).addTo(map);
 
 const linesLayer = L.layerGroup([
@@ -156,7 +159,7 @@ const linesLayer = L.layerGroup([
 const polygon_style = { color: '#1f6f78', fillColor: '#1f6f78', fillOpacity: 0.25 };
 
 const buildingLayer = L.layerGroup([
-    L.polygon(sullivant, polygon_style),
+    L.polygon(sullivant, polygon_style).bindTooltip('Billy Ireland Cartoon Library & Museum', { direction: 'top', offset: [0, -8] }),
     L.polygon(mershon, polygon_style),
     L.polygon(north, polygon_style),
     L.polygon(varsity, polygon_style)
